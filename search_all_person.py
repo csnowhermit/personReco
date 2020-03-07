@@ -91,10 +91,10 @@ def detect(cfg,
     print("pidNameInfo:", pidNameInfo)
 
     ############# 行人重识别模型初始化 #############
-    query_loader, num_query = make_data_loader(reidCfg)
+    query_loader, num_query = make_data_loader(reidCfg)    # 迭代器，待查样本数
     print("query_loader:", type(query_loader), query_loader)
 
-    reidModel = build_model(reidCfg, num_classes=10126)
+    reidModel = build_model(reidCfg, num_classes=10126)    # 行人重识别使用ResNet50网络
     reidModel.load_param(reidCfg.TEST.WEIGHT)
     reidModel.to(device).eval()
 
@@ -116,7 +116,7 @@ def detect(cfg,
     query_feats = torch.nn.functional.normalize(query_feats, dim=1, p=2) # 计算出查询图片的特征向量
 
     ############# 行人检测模型初始化 #############
-    model = Darknet(cfg, img_size)
+    model = Darknet(cfg, img_size)    # yolov3使用Darknet53网络
 
     # Load weights
     if weights.endswith('.pt'):  # pytorch format
